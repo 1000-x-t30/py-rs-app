@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  end:
+    container_name: 'end'
+    working_dir: '/usr/src/app/end'
+    build:
+      context: .
+      dockerfile: ./infra/python/Dockerfile
+    ports:
+      - 8000:8000
+    tty: true
+    volumes:
+      - ./app/end:/usr/src/app/end
+    networks:
+      - www-network
+
+  rust:
+    container_name: 'rust'
+    working_dir: '/usr/src/app/rust'
+    build:
+      context: .
+      dockerfile: ./infra/rust/Dockerfile
+    tty: true
+    volumes:
+      - ./app/rust:/usr/src/app/rust
+    networks:
+      - www-network
+
+networks:
+  www-network:
